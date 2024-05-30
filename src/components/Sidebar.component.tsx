@@ -1,7 +1,10 @@
 import { FC } from "react";
+import { Button } from "./shared/Button.component";
 
-export const Sidebar: FC = () => {
-  const onClickAddProjects = () => {};
+interface SidebarProps {
+  onClickAddNewProject: () => void;
+}
+export const Sidebar: FC<SidebarProps> = ({ onClickAddNewProject }) => {
   return (
     <>
       <aside className="w-1/3 h-full px-8 py-16 bg-stone-900 text-stone-50 md:w-72 rounded-r-xl">
@@ -9,12 +12,7 @@ export const Sidebar: FC = () => {
           Your projects
         </h2>
         <div>
-          <button
-            className="px-4 py-2 text-xs md:text-base rounded-md bg-stone-700 text-stone-400 hover:bg-stone-600 hover:text-stone-100"
-            onClick={onClickAddProjects}
-          >
-            + Add Projects
-          </button>
+          <Button onClick={onClickAddNewProject}> + Add Project</Button>
         </div>
         <ul></ul>
       </aside>
