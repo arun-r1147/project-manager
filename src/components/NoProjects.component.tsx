@@ -1,9 +1,10 @@
 import { FC } from "react";
 import logo from "../assets/logo.png";
 import { Button } from "./shared/Button.component";
-
-export const NoProject: FC = () => {
-  const onClickAddNewProject = () => {};
+interface NoProjectProps {
+  onClickAddNewProject: () => void;
+}
+export const NoProject: FC<NoProjectProps> = ({onClickAddNewProject}) => {
 
   return (
     <div className="mt-24 text-center w-2/3">
@@ -19,7 +20,7 @@ export const NoProject: FC = () => {
         Select a project or get started with new one
       </p>
       <p className="mt-8">
-        <Button onAddProject={onClickAddNewProject}>Create new Project</Button>
+        <Button onClick={onClickAddNewProject}>Create new Project</Button>
       </p>
     </div>
   );

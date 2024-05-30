@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 interface ButtonProps {
-  onAddProject: () => void;
+  onClick: (React.MouseEventHandler<HTMLButtonElement>) ;
   children: ReactNode;
 }
 
