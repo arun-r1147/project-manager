@@ -46,6 +46,12 @@ export const App: FC = () => {
     console.log("data", projectsState);
   };
 
+  const handleCancelProject = () => {
+    setProjectsState((prevState) => {
+      return { ...prevState, selectedProjectId: undefined, projects: [] };
+    });
+  };
+
   // useEffect(() => {
   //   setProjectsState((prevState) => {
   //     const newProject = {
@@ -58,7 +64,12 @@ export const App: FC = () => {
 
   let content;
   if (projectsState.selectedProjectId === null) {
-    content = <NewProject onSave={(data) => handleAddProject(data)} />;
+    content = (
+      <NewProject
+        onSave={(data) => handleAddProject(data)}
+        onCancel={handleCancelProject}
+      />
+    );
   } else if (projectsState.selectedProjectId === undefined) {
     content = <NoProject onClickAddNewProject={onClickAddNewProject} />;
   }
