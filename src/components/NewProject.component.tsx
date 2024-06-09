@@ -9,14 +9,14 @@ interface ProjectData {
 }
 interface NewProjectProps {
   onSave: (data: ProjectData) => void;
+  onCancel: () => void;
 }
 type DialogHandle = HTMLDialogElement & {
   openModal: () => void;
-}
+};
 
-
-export const NewProject: FC<NewProjectProps> = ({ onSave }) => {
-  const modal = useRef<DialogHandle| null>(null);
+export const NewProject: FC<NewProjectProps> = ({ onSave, onCancel }) => {
+  const modal = useRef<DialogHandle | null>(null);
 
   const title = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const description = useRef<HTMLInputElement | HTMLTextAreaElement | null>(
@@ -33,6 +33,7 @@ export const NewProject: FC<NewProjectProps> = ({ onSave }) => {
       enteredDate?.trim() == "" ||
       enteredDesc?.trim() == ""
     ) {
+      modal.current?.openModal();
       return;
     }
     onSave({
@@ -41,11 +42,19 @@ export const NewProject: FC<NewProjectProps> = ({ onSave }) => {
       dueDate: enteredDate ?? "",
     });
   };
-  const onResetForm = () => {};
+  const onResetForm = () => {
+    onCancel();
+  };
   return (
     <>
-      <Modal ref={modal}>
-        <p>error in datas</p>
+      <Modal ref={modal} buttonLabel="Close">
+        <h2 className="text-xl font-bold text-stone-700 my-4">Invalid input</h2>
+        <p className="text-stone-600 mb-4">
+          Oops... looks like forgot to enter values
+        </p>
+        <p className="text-stone-600 mb-4">
+          Please make sure you provide a valid value for every input fields
+        </p>
       </Modal>
 
       <div className="w-[35rem] mt-16">
