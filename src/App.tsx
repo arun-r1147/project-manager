@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { NewProject } from "./components/NewProject.component";
 import { NoProject } from "./components/NoProjects.component";
 import { Sidebar } from "./components/Sidebar.component";
+import { SelectedProject } from "./components/SelectedProject.component";
 
 interface Project {
   id: number;
@@ -13,25 +14,22 @@ export const App: FC = () => {
   const [projectsState, setProjectsState] = useState<{
     selectedProjectId: null | number | undefined;
     projects: Project[];
-  }>({ selectedProjectId: undefined, projects: [] });
+  }>({
+    selectedProjectId: undefined,
+    projects: [],
+  });
 
   const onClickAddNewProject = () => {
     setProjectsState((prevState) => {
-      return { ...prevState, selectedProjectId: null, projects: [] };
+      return { ...prevState, selectedProjectId: null };
     });
   };
-  // let projectDatas: {
-  //   title: string;
-  //   description: string;
-  //   dueDate: string;
-  // } = { title: "", description: "", dueDate: "" };
 
   const handleAddProject = (projectData: {
     title: string;
     description: string;
     dueDate: string;
   }) => {
-    // projectDatas = projectData;
     setProjectsState((prevState) => {
       const newProject = {
         ...projectData,
@@ -43,26 +41,28 @@ export const App: FC = () => {
         projects: [...prevState.projects, newProject],
       };
     });
-    console.log("data", projectsState);
   };
 
   const handleCancelProject = () => {
     setProjectsState((prevState) => {
-      return { ...prevState, selectedProjectId: undefined, projects: [] };
+      return { ...prevState, selectedProjectId: undefined };
     });
   };
 
-  // useEffect(() => {
-  //   setProjectsState((prevState) => {
-  //     const newProject = {
-  //       ...projectDatas,
-  //       id: Math.random(),
-  //     };
-  //     return { ...prevState, projects: [...prevState.projects, newProject] };
-  //   });
-  // }, [projectDatas]);
-
+  const onHandleSelectProject = (id: number) => {
+    setProjectsState((prevState) => {
+      return { ...prevState, selectedProjectId: id, };
+    });
+  };
+  const selectedPro = projectsState.projects.find(
+    (p) => p.id == projectsState.selectedProjectId
+  );
   let content;
+  console.log(selectedPro, projectsState);
+
+  if (selectedPro) {
+    content = <SelectedProject project={selectedPro} />;
+  }
   if (projectsState.selectedProjectId === null) {
     content = (
       <NewProject
@@ -79,6 +79,8 @@ export const App: FC = () => {
       <Sidebar
         onClickAddNewProject={onClickAddNewProject}
         projectsList={projectsState.projects}
+        onSelectProject={onHandleSelectProject}
+        selectedProjectId={projectsState.selectedProjectId}
       />
       {content}
     </main>
