@@ -9,10 +9,14 @@ interface SidebarProps {
     dueDate: string;
     id: number;
   }[];
+  onSelectProject: (id: number) => void;
+  selectedProjectId: number | null | undefined;
 }
 export const Sidebar: FC<SidebarProps> = ({
   onClickAddNewProject,
   projectsList,
+  onSelectProject,
+  selectedProjectId,
 }) => {
   return (
     <>
@@ -24,15 +28,27 @@ export const Sidebar: FC<SidebarProps> = ({
           <Button onClick={onClickAddNewProject}> + Add Project</Button>
         </div>
         <ul className="mt-8">
-          {projectsList.map((project) => (
-            <li key={project.id}>
-              <button className="w-full text-left px-2 rounded-sm my-1 text-stone-400 hover:text-stone-200 hover:bg-stone-800">
-                Title: {project.title}
-              </button>
-              <p>Description: {project.description}</p>
-              <p>Due Date: {project.dueDate}</p>
-            </li>
-          ))}
+          {projectsList.map((project) => {
+            let cssClass =
+              "w-full text-left px-2 rounded-sm my-1 text-stone-400 hover:text-stone-200 hover:bg-stone-800";
+            if (project.id === selectedProjectId) {
+              cssClass += " bg-stone-800 text-stone-200";
+            } else {
+              cssClass += " text-stone-400";
+            }
+            return (
+              <li key={project.id}>
+                <button
+                  onClick={() => onSelectProject(project.id)}
+                  className={cssClass}
+                >
+                  Title: {project.title}
+                </button>
+                <p>Description: {project.description}</p>
+                <p>Due Date: {project.dueDate}</p>
+              </li>
+            );
+          })}
         </ul>
       </aside>
     </>
