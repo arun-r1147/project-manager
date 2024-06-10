@@ -49,9 +49,21 @@ export const App: FC = () => {
     });
   };
 
+  const onHandleDeleteProject = () => {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: projectsState.projects.filter(
+          (p) => p.id !== prevState.selectedProjectId
+        ),
+      };
+    });
+  };
+
   const onHandleSelectProject = (id: number) => {
     setProjectsState((prevState) => {
-      return { ...prevState, selectedProjectId: id, };
+      return { ...prevState, selectedProjectId: id };
     });
   };
   const selectedPro = projectsState.projects.find(
@@ -61,7 +73,12 @@ export const App: FC = () => {
   console.log(selectedPro, projectsState);
 
   if (selectedPro) {
-    content = <SelectedProject project={selectedPro} />;
+    content = (
+      <SelectedProject
+        project={selectedPro}
+        onDelete={onHandleDeleteProject}
+      />
+    );
   }
   if (projectsState.selectedProjectId === null) {
     content = (
