@@ -10,13 +10,20 @@ interface Project {
   description: string;
   dueDate: string;
 }
+interface Task {
+  id: number;
+  projectId: number | null | undefined;
+  text: string;
+}
 export const App: FC = () => {
   const [projectsState, setProjectsState] = useState<{
     selectedProjectId: null | number | undefined;
     projects: Project[];
+    tasks: Task[];
   }>({
     selectedProjectId: undefined,
     projects: [],
+    tasks: [],
   });
 
   const onClickAddNewProject = () => {
@@ -61,6 +68,28 @@ export const App: FC = () => {
     });
   };
 
+  const onHandleSaveTask = (text: string) => {
+    setProjectsState((prevState) => {
+      const newTask = {
+        id: Math.random(),
+        projectId: prevState.selectedProjectId,
+        text: text,
+      };
+      return {
+        ...prevState,
+        tasks: [newTask, ...prevState.tasks],
+      };
+    });
+  };
+  const onHandleDeleteTask = (id: number) => {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter((task) => task.id !== id),
+      };
+    });
+  };
+
   const onHandleSelectProject = (id: number) => {
     setProjectsState((prevState) => {
       return { ...prevState, selectedProjectId: id };
@@ -75,8 +104,11 @@ export const App: FC = () => {
   if (selectedPro) {
     content = (
       <SelectedProject
+        tasks={projectsState.tasks}
         project={selectedPro}
         onDelete={onHandleDeleteProject}
+        onSaveTask={(text) => onHandleSaveTask(text)}
+        onDeleteTask={onHandleDeleteTask}
       />
     );
   }
