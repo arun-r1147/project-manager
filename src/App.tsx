@@ -99,7 +99,6 @@ export const App: FC = () => {
     (p) => p.id == projectsState.selectedProjectId
   );
   let content;
-  console.log(selectedPro, projectsState);
 
   if (selectedPro) {
     content = (

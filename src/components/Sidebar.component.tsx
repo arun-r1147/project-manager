@@ -42,10 +42,9 @@ export const Sidebar: FC<SidebarProps> = ({
                   onClick={() => onSelectProject(project.id)}
                   className={cssClass}
                 >
-                  Title: {project.title}
+                  {" "}
+                  {project.title}
                 </button>
-                <p>Description: {project.description}</p>
-                <p>Due Date: {project.dueDate}</p>
               </li>
             );
           })}
