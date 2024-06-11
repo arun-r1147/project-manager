@@ -5,13 +5,16 @@ interface NewTaskProps {
 }
 
 export const NewTask: FC<NewTaskProps> = ({ onHandleSave }) => {
-  const [task, setTask] = useState<string>('');
+  const [task, setTask] = useState<string>("");
 
   const handleTaskEntry = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
   };
 
   const onHandleSaveTask = () => {
+    if (task.trim() === "") {
+      return;
+    }
     onHandleSave(task);
     setTask("");
   };
