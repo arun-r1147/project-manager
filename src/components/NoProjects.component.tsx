@@ -14,7 +14,7 @@ export const NoProject: FC<NoProjectProps> = ({onClickAddNewProject}) => {
         className="w-16 h-16 object-contain mx-auto"
       />
       <h2 className="text-xl font-bold text-stone-500 my-4">
-        No project selected
+        No project selected yet
       </h2>
       <p className="text-stone-400 mb-4">
         Select a project or get started with new one
