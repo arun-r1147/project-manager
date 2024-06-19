@@ -43,7 +43,8 @@ export const Sidebar: FC<SidebarProps> = ({
                   className={cssClass}
                 >
                   {" "}
-                  {project.title}
+                  {project.title}{" "}
+                  ({project.description})
                 </button>
               </li>
             );
